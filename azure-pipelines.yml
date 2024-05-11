@@ -30,6 +30,15 @@ steps:
     jdkFile: '$(pipeline.workspace)/Java/jdk-17.0.10_windows-x64_bin.zip'
     jdkDestinationDirectory: '$(pipeline.workspace)/javainstall'
     cleanDestinationDirectory: true
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+     gh release download --clobber --pattern identityiq-8.2.zip -D base\ga BuildTest
+      Get-ChildItem -File -Recurse | ForEach-Object {
+       $size = "{0:N2}" -f ($_.Length / 1KB) + " KB"
+       Write-Output "$($_.FullName) - $size"
+      }
 - task: Ant@1
   inputs:
     options: -DSPTARGET=$(SPTARGET)

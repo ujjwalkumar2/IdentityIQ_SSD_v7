@@ -32,6 +32,13 @@ steps:
     jdkFile: '$(pipeline.workspace)/Java/jdk-17.0.10_windows-x64_bin.zip'
     jdkDestinationDirectory: '$(pipeline.workspace)/javainstall'
     cleanDestinationDirectory: true
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/iiq'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(pipeline.workspace)/s/base/ga/identityiq-8.2.zip'
+    replaceExistingArchive: true
 - task: Ant@1
   inputs:
     options: -DSPTARGET=$(SPTARGET)
